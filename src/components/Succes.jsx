@@ -10,7 +10,7 @@ export default function Succes() {
     return (
         <Card>
             <CardHeader>
-                <h3>Form Başarıyla Gönderildi</h3>
+                <h3 data-cy="success" >Form Başarıyla Gönderildi</h3>
             </CardHeader>
             <CardBody>
                 <p>Form başarıyla gönderildi. Teşekkürler!</p>

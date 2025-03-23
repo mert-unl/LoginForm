@@ -99,6 +99,7 @@ const initalValue = {
     type="email"
     value={formData.email}
     invalid={errors.email}
+    data-cy="email"
     onChange={onHandleChange}
   />
    <FormFeedback>
@@ -117,6 +118,7 @@ const initalValue = {
     type="password"
     value={formData.password}
     onChange={onHandleChange}
+    data-cy="password"
     invalid={errors.password}
   />
    <FormFeedback>
@@ -131,6 +133,7 @@ const initalValue = {
   <Input id="exampleCheck" type="checkbox"
   invalid={errors.terms}
   checked={formData.terms}
+  data-cy="terms"
   onChange={(e) => setFormData({...formData,terms: e.target.checked})}
   />
   {' '}
@@ -141,7 +144,7 @@ const initalValue = {
 </FormFeedback>
 </FormGroup>
 
-<Button color="primary" type="submit" disabled={!isValid}>
+<Button color="primary"  data-cy="submit" type="submit" disabled={!isValid}>
   Kayıt Ol
 </Button>
 </Form>
