@@ -1,7 +1,5 @@
-import { use, useState } from 'react'
-import React from "react"
-import ReactDOM from "react-dom"
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import { useEffect, useState } from 'react'
+import { Button, Form, FormGroup, Label, Input,FormFeedback, Card, CardBody, CardHeader } from 'reactstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -21,6 +19,46 @@ const [formData,setFormData] = useState(initalValue)
             terms: false,
     })
 
+
+    const errorMessages ={
+        email: 'Lütfen geçerli bir email adresi girin',
+        password: 'Şifreniz en az 8 karakter olmalı ve en az bir büyük harf, bir küçük harf, bir sayı ve bir özel karakter içermelidir',
+        terms: 'Şartları kabul etmelisiniz'
+    }
+
+
+    const onHandleChange = (e) => {
+      const {name, value, type, checked} = e.target
+      setFormData({
+        ...formData,
+        [name]: type === 'checkbox' ? checked : value
+      })
+    }
+
+  const onHandleSubmit = (e) => {
+    e.preventDefault()
+      if(!isValid) return
+      history.push('/success')
+  }
+
+
+  useEffect(() => {
+    const {email, password, terms} = formData;
+    
+    // Boş string kontrolü ekleyin
+    const emailValid = email.length > 0 && validateEmail(email);
+    const passwordValid = password.length > 0 && isStrongPassword(password);
+    const termsValid = terms;
+  
+    setErrors({
+      email: email.length > 0 && !emailValid,
+      password: password.length > 0 && !passwordValid,
+      terms: !termsValid
+    });
+  
+    setIsValid(emailValid && passwordValid && termsValid);
+  }, [formData]);
+
     const validateEmail = (email) => {
       return String(email)
         .toLowerCase()
@@ -38,7 +76,12 @@ const [formData,setFormData] = useState(initalValue)
 
     return (
 
-<Form>
+<Card>
+  <CardHeader>Kayıt Ol</CardHeader>
+<CardBody>
+
+
+<Form onSubmit={onHandleSubmit}>
 <FormGroup>
   <Label for="exampleEmail">
     Email
@@ -46,9 +89,16 @@ const [formData,setFormData] = useState(initalValue)
   <Input
     id="exampleEmail"
     name="email"
-    placeholder="with a placeholder"
+    placeholder="Email adresinizi girin"
     type="email"
+    value={formData.email}
+    invalid={errors.email}
+    onChange={onHandleChange}
   />
+   <FormFeedback>
+  {errors.email ? errorMessages.email : ''}
+</FormFeedback>
+
 </FormGroup>
 <FormGroup>
   <Label for="examplePassword">
@@ -57,22 +107,39 @@ const [formData,setFormData] = useState(initalValue)
   <Input
     id="examplePassword"
     name="password"
-    placeholder="password placeholder"
+    placeholder="Şifrenizi girin"
     type="password"
+    value={formData.password}
+    onChange={onHandleChange}
+    invalid={errors.password}
   />
+   <FormFeedback>
+  {errors.password ? errorMessages.password : ''}
+</FormFeedback>
+
 </FormGroup>
 
 
 
 <FormGroup check>
-  <Input type="checkbox" />
+  <Input id="exampleCheck" type="checkbox"
+  invalid={errors.terms}
+  checked={formData.terms}
+  onChange={(e) => setFormData({...formData,terms: e.target.checked})}
+  />
   {' '}
-  <Label check>
-    Check me out
-  </Label>
+  <Label check for="exampleCheck">
+Şartları Kabul Ediyorum.</Label>
+<FormFeedback>
+  {errors.terms ? errorMessages.terms : ''}
+</FormFeedback>
 </FormGroup>
-<Button>
-  Submit
+
+<Button color="primary" type="submit" disabled={!isValid}>
+  Kayıt Ol
 </Button>
 </Form>
+</CardBody>
+
+</Card>
   )}
