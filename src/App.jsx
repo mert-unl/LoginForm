@@ -1,16 +1,21 @@
-import { useState } from 'react'
 import React from "react"
-import ReactDOM from "react-dom"
 import Login from './components/Login'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
+import { Route, Routes, HashRouter } from "react-router-dom"
+import Succes from './components/Succes'
 
 function App() {
 
   return (
     <>
-<Login/>
+    <HashRouter> 
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/succes" element={<Succes />} />
+      </Routes>
+    </HashRouter>
+    
     </>
   )
 }

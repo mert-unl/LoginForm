@@ -1,30 +1,33 @@
 import { useEffect, useState } from 'react'
 import { Button, Form, FormGroup, Label, Input,FormFeedback, Card, CardBody, CardHeader } from 'reactstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-
+import { useNavigate } from 'react-router-dom' 
 
 export default function Login() {
+
+  const navigate = useNavigate(); 
+
 const initalValue = {
     email: '',
     password: '',
     terms: false
 }
 
-const [formData,setFormData] = useState(initalValue)
-    const [isValid,setIsValid] = useState(false)
-
-    const [errors,setErrors] = useState({
-       email: false,
-         password: false,
-            terms: false,
-    })
-
-
-    const errorMessages ={
+  const [formData,setFormData] = useState(initalValue)
+  
+  const [isValid,setIsValid] = useState(false)
+  
+  const [errors,setErrors] = useState({
+        email: false,
+          password: false,
+              terms: false,
+  })
+  
+  const errorMessages ={
         email: 'Lütfen geçerli bir email adresi girin',
         password: 'Şifreniz en az 8 karakter olmalı ve en az bir büyük harf, bir küçük harf, bir sayı ve bir özel karakter içermelidir',
         terms: 'Şartları kabul etmelisiniz'
-    }
+  }
 
 
     const onHandleChange = (e) => {
@@ -38,8 +41,11 @@ const [formData,setFormData] = useState(initalValue)
   const onHandleSubmit = (e) => {
     e.preventDefault()
       if(!isValid) return
-      history.push('/success')
-  }
+
+    setFormData(initalValue)
+
+       navigate('/succes')
+    }
 
 
   useEffect(() => {
